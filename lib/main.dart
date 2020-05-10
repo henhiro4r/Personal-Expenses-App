@@ -111,23 +111,23 @@ class _MyHomePageState extends State<MyHomePage> {
     final transList = Container(
       height: (mediaQuery.size.height -
               appbar.preferredSize.height -
-          mediaQuery.padding.top) *
+              mediaQuery.padding.top) *
           0.7,
       child: TransactionList(_userTransactions, _deleteTransaction),
     );
 
     final chartPor = Container(
       height: (mediaQuery.size.height -
-          appbar.preferredSize.height -
-          mediaQuery.padding.top) *
+              appbar.preferredSize.height -
+              mediaQuery.padding.top) *
           0.3,
       child: Chart(_recentTransactions),
     );
 
     final chartLand = Container(
       height: (mediaQuery.size.height -
-          appbar.preferredSize.height -
-          mediaQuery.padding.top) *
+              appbar.preferredSize.height -
+              mediaQuery.padding.top) *
           0.7,
       child: Chart(_recentTransactions),
     );
@@ -139,32 +139,32 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             if (isLand)
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text('Show Chart'),
-                      Switch.adaptive(
-                          value: _showChart,
-                          onChanged: (val) {
-                            setState(() {
-                              _showChart = val;
-                            });
-                          }),
-                    ],
-                  ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text('Show Chart'),
+                  Switch.adaptive(
+                      value: _showChart,
+                      onChanged: (val) {
+                        setState(() {
+                          _showChart = val;
+                        });
+                      }),
+                ],
+              ),
             if (!isLand) chartPor,
             if (!isLand) transList,
-            if (isLand) _showChart
-                    ? chartLand
-                    : transList,
+            if (isLand) _showChart ? chartLand : transList,
           ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Platform.isIOS ? Container() :FloatingActionButton(
-        onPressed: () => _showSheetNewTransaction(context),
-        child: Icon(Icons.add),
-      ),
+      floatingActionButton: Platform.isIOS
+          ? Container()
+          : FloatingActionButton(
+              onPressed: () => _showSheetNewTransaction(context),
+              child: Icon(Icons.add),
+            ),
     );
   }
 
@@ -189,8 +189,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _addNewTransaction(
-      String tcTitle, double txAmount, DateTime chosenDate) {
+  void _addNewTransaction(String tcTitle, double txAmount, DateTime chosenDate) {
     final newTrans = Transaction(
       title: tcTitle,
       amount: txAmount,
