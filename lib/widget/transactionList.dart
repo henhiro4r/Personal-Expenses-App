@@ -4,31 +4,35 @@ import 'package:intl/intl.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
+  final Function delete;
 
-  TransactionList(this.transactions);
+  TransactionList(this.transactions, this.delete);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
       child: transactions.isEmpty
-          ? Column(
-              children: <Widget>[
-                Text(
-                  'No Data',
-                  style: Theme.of(context).textTheme.title,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 200,
-                  child: Image.asset(
-                    'assets/images/waiting.png',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ],
+          ? LayoutBuilder(
+              builder: (ctx, constraint) {
+                return Column(
+                  children: <Widget>[
+                    Text(
+                      'No Data',
+                      style: Theme.of(context).textTheme.title,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      height: constraint.maxHeight * 0.6,
+                      child: Image.asset(
+                        'assets/images/waiting.png',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ],
+                );
+              },
             )
           : ListView.builder(
               itemBuilder: (context, index) {
@@ -56,6 +60,17 @@ class TransactionList extends StatelessWidget {
                     subtitle: Text(
                       DateFormat.yMMMMd().format(transactions[index].date),
                     ),
+                    trailing: MediaQuery.of(context).size.width > 460
+                        ? FlatButton.icon(
+                            icon: Icon(Icons.delete),
+                            onPressed: () => delete(transactions[index].id),
+                            textColor: Theme.of(context).errorColor,
+                            label: Text('Delete'))
+                        : IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () => delete(transactions[index].id),
+                            color: Theme.of(context).errorColor,
+                          ),
                   ),
                 );
               },
